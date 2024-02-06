@@ -27,4 +27,7 @@ To get the above scripts up and running, follow these steps.
 3. Run `i2cdetect -y 1`. This should show a connection on `0x68` or `0x69`. You'll have to change the variable at the top of the `.py` files to
 make sure this is correct.
 4. Run either `python3 imu-test.py` or `python3 imu-visual.py`
-5. Congratulation! Go drink because you now have some useful(?) data from a cheap, inaccurate Amazon clone IMU that probably won't work tomorrow. 
+5. Congratulation! Go drink because you now have some useful(?) data from a cheap, inaccurate Amazon clone IMU that probably won't work tomorrow.
+
+## Credits:
+A lot of this was adapted / taken from [this](https://pypi.org/project/BMI160-i2c/) python package.
