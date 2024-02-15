@@ -31,3 +31,5 @@ make sure this is correct.
 
 ## Credits:
 A lot of this was adapted / taken from [this](https://pypi.org/project/BMI160-i2c/) python package.
+
+hi there
