@@ -9,11 +9,7 @@ while True:
   data = sensor.getMotion6()
   # fetch all gyro and acclerometer values
   print({
-    'gx': data[0],
-    'gy': data[1],
-    'gz': data[2],
     'ax': data[3],
     'ay': data[4],
-    'az': data[5]
   })
-  sleep(0.1)
+  sleep(0.3)
