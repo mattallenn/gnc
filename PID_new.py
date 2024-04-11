@@ -1,3 +1,18 @@
+import RPi.GPIO as GPIO
+from time import sleep
+from BMI160_i2c import Driver
+
+print('Trying to initialize the sensor...')
+sensor = Driver(0x68) # change address if needed
+print('Initialization done')
+
+relay1 = 16
+relay2 = 15
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(relay1, GPIO.OUT)
+GPIO.setup(relay2, GPIO.OUT)
+
 class PID:
     def __init__(self, Kp, Ki, Kd, setpoint):
         self.Kp = Kp
@@ -18,8 +33,26 @@ class PID:
 # Example usage
 if __name__ == "__main__":
     pid = PID(1, 0.1, 0.01, 0)  # Example PID parameters and setpoint
-    current_value = 0 # change later
-    for _ in range(100):
+    while True:
+        data = sensor.getMotion6()
+        current_value = data[2] / 16000
         control_signal = pid.update(current_value)
-        current_value += control_signal  # Simulating the system response
-        print("Control signal:", control_signal, "Current value:", current_value)
+
+        GPIO.output(relay1, GPIO.LOW)
+        GPIO.output(relay2, GPIO.LOW)
+
+        if control_signal > 0.05:
+            # Fire left
+            GPIO.output(relay1, GPIO.HIGH)
+            time.sleep(0.1)
+            GPIO.output(relay1, GPIO.LOW)
+
+        elif control_signal < -0.05:
+            # Fire left
+            GPIO.output(relay2, GPIO.HIGH)
+            time.sleep(0.1)
+            GPIO.output(relay2, GPIO.LOW)
+
+
+
+
