@@ -100,6 +100,7 @@ def test3():
     GPIO.output(relay2, GPIO.LOW)
     file.close()
 
+# Test 4
 
 # Main control Loop
 if __name__ == "main":
