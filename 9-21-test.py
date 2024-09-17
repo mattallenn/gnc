@@ -37,7 +37,9 @@ GPIO.setup(relay2, GPIO.OUT)
 # Format: nozzle 1 state, nozzle 2 state, time, data[6]
 def test1():
     # Create test file
-    file = open("test_data/both.csv","w")
+    current_time4 = datetime.now().strfrtime("%Y-%m-%d_%H-%M-%S")
+    file_name = f"test_data/equality_{current_time4}.csv"
+    file = open(file_name, "w")
     
     # Fire both nozzles for 5 seconds and record data
     start_time = time.time()
@@ -62,8 +64,10 @@ def test1():
 
 def test2():
     # Create test file
-    file = open("test_data/left.csv","w")
-    
+    current_time4 = datetime.now().strfrtime("%Y-%m-%d_%H-%M-%S")
+    file_name = f"test_data/left_{current_time4}.csv"
+    file = open(file_name, "w")
+
     # Power relay 1 for 1 second and record data
     start_time = time.time()
     
@@ -85,7 +89,9 @@ def test2():
     
 def test3():
     # Create test file
-    file = open("test_data/right.csv","w")
+    current_time4 = datetime.now().strfrtime("%Y-%m-%d_%H-%M-%S")
+    file_name = f"test_data/right_{current_time4}.csv"
+    file = open(file_name, "w")
     
     # Power relay 2 for 1 second and record data
     start_time = time.time()
@@ -128,7 +134,6 @@ def test4():
     # Close the file
     GPIO.output(relay2, GPIO.LOW)
     file.close()
-
 
 #--------------------------------
 # Main control Loop
