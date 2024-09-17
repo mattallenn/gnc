@@ -10,6 +10,7 @@
 import time
 import RPi.GPIO as GPIO
 from BMI160_i2c import Driver
+from datetime import datetime
 
 # Initialize the sensor
 print('Trying to initialize the sensor...')
@@ -100,7 +101,34 @@ def test3():
     GPIO.output(relay2, GPIO.LOW)
     file.close()
 
-# Test 4
+# Test 4 - Open nozzle until empty test
+# Open right valve until air runs out and record what happens.
+# Will write data to test_data/open_nozzle.csv
+# Format: nozzle 1 state, time, data[6]
+
+def test4():
+    # Create test file
+    current_time4 = datetime.now().strfrtime("%Y-%m-%d_%H-%M-%S")
+    file_name = f"test_data/open_nozzle_{current_time4}.csv"
+    file = open(file_name, "w")
+
+    # Power relay 2 until air nozzle runs out and record data for 3 minutes
+    start_time = time.time()
+
+    GPIO.output(relay2, GPIO.HIGH)
+
+    while True:
+        current_time = time.time()
+        data = sensor.getMotion6()
+        file.write(f"{GPIO.input(relay2)}, {time.time()-start_time},{data[6]}\n")
+        if current_time - start_time >= 180:
+            GPIO.output(relay2, GPIO.LOW)
+            break
+
+    # Close the file
+    GPIO.output(relay2, GPIO.LOW)
+    file.close()
+
 
 # Main control Loop
 if __name__ == "main":
