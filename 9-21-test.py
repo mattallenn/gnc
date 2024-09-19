@@ -37,7 +37,7 @@ GPIO.setup(relay2, GPIO.OUT)
 # Format: nozzle 1 state, nozzle 2 state, time, data[6]
 def test1():
     # Create test file
-    current_time4 = datetime.now().strfrtime("%Y-%m-%d_%H-%M-%S")
+    current_time4 = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     file_name = f"test_data/equality_{current_time4}.csv"
     file = open(file_name, "w")
     
@@ -64,7 +64,7 @@ def test1():
 
 def test2():
     # Create test file
-    current_time4 = datetime.now().strfrtime("%Y-%m-%d_%H-%M-%S")
+    current_time4 = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     file_name = f"test_data/left_{current_time4}.csv"
     file = open(file_name, "w")
 
@@ -89,7 +89,7 @@ def test2():
     
 def test3():
     # Create test file
-    current_time4 = datetime.now().strfrtime("%Y-%m-%d_%H-%M-%S")
+    current_time4 = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     file_name = f"test_data/right_{current_time4}.csv"
     file = open(file_name, "w")
     
@@ -114,7 +114,7 @@ def test3():
 
 def test4():
     # Create test file
-    current_time4 = datetime.now().strfrtime("%Y-%m-%d_%H-%M-%S")
+    current_time4 = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     file_name = f"test_data/open_nozzle_{current_time4}.csv"
     file = open(file_name, "w")
 
