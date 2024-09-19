@@ -44,8 +44,8 @@ def test1():
     # Fire both nozzles for 5 seconds and record data
     start_time = time.time()
     
-    GPIO.output(relay1, GPIO.HIGH)
-    GPIO.output(relay2, GPIO.HIGH)
+    GPIO.output(relay1, GPIO.LOW)
+    GPIO.output(relay2, GPIO.LOW)
     
     while time.time() - start_time < 5:
         data = sensor.getMotion6()
@@ -55,8 +55,8 @@ def test1():
         time.sleep(0.1)
 
     # Close the file
-    GPIO.output(relay1, GPIO.LOW)
-    GPIO.output(relay2, GPIO.LOW)
+    GPIO.output(relay1, GPIO.HIGH)
+    GPIO.output(relay2, GPIO.HIGH)
     file.close()
 
 # Test 2 - Left thrust test
