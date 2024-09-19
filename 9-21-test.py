@@ -49,7 +49,7 @@ def test1():
     
     while time.time() - start_time < 5:
         data = sensor.getMotion6()
-        file.write(f"{GPIO.input(relay1)},{GPIO.input(relay2)},{time.time()-start_time},{data[0]},{data[1]},{data[2]},{data[3]},{data[4]},{data[5]}\n")
+        file.write(f"{GPIO.input(relay1)},{GPIO.input(relay2)},{round(time.time()-start_time,2)},{data[0]},{data[1]},{data[2]},{data[3]},{data[4]},{data[5]}\n")
         # write the same file.write but have it add columns for data[0] to data[5]
 
         time.sleep(0.1)
@@ -77,7 +77,7 @@ def test2():
     
     while time.time() - start_time < 1:
         data = sensor.getMotion6()
-        file.write(f"{GPIO.input(relay1)},{time.time()-start_time},{data[0]},{data[1]},{data[2]},{data[3]},{data[4]},{data[5]}\n")
+        file.write(f"{GPIO.input(relay1)},{round(time.time()-start_time,2)},{data[0]},{data[1]},{data[2]},{data[3]},{data[4]},{data[5]}\n")
         time.sleep(0.1)
 
     # Close the file
@@ -102,7 +102,7 @@ def test3():
     
     while time.time() - start_time < 1:
         data = sensor.getMotion6()
-        file.write(f"{GPIO.input(relay2)},{time.time()-start_time},{data[0]},{data[1]},{data[2]},{data[3]},{data[4]},{data[5]}\n")
+        file.write(f"{GPIO.input(relay2)},{round(time.time()-start_time,2)},{data[0]},{data[1]},{data[2]},{data[3]},{data[4]},{data[5]}\n")
         time.sleep(0.1)
 
     # Close the file
@@ -128,7 +128,7 @@ def test4():
     while True:
         current_time = time.time()
         data = sensor.getMotion6()
-        file.write(f"{GPIO.input(relay2)}, {time.time()-start_time},{data[0]},{data[1]},{data[2]},{data[3]},{data[4]},{data[5]}\n")
+        file.write(f"{GPIO.input(relay2)}, {round(time.time()-start_time,2)},{data[0]},{data[1]},{data[2]},{data[3]},{data[4]},{data[5]}\n")
         if current_time - start_time >= 180:
             GPIO.output(relay2, GPIO.LOW)
             break
