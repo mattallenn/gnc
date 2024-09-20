@@ -73,7 +73,7 @@ def test2():
     # Power relay 1 for 1 second and record data
     start_time = time.time()
     
-    GPIO.output(relay1, GPIO.HIGH)
+    GPIO.output(relay1, GPIO.LOW)
     
     while time.time() - start_time < 1:
         data = sensor.getMotion6()
@@ -81,7 +81,7 @@ def test2():
         time.sleep(0.1)
 
     # Close the file
-    GPIO.output(relay1, GPIO.LOW)
+    GPIO.output(relay1, GPIO.HIGH)
     file.close()
     
 # Test 3 - Right thrust test
@@ -98,7 +98,7 @@ def test3():
     # Power relay 2 for 1 second and record data
     start_time = time.time()
     
-    GPIO.output(relay2, GPIO.HIGH)
+    GPIO.output(relay2, GPIO.LOW)
     
     while time.time() - start_time < 1:
         data = sensor.getMotion6()
@@ -106,7 +106,7 @@ def test3():
         time.sleep(0.1)
 
     # Close the file
-    GPIO.output(relay2, GPIO.LOW)
+    GPIO.output(relay2, GPIO.HIGH)
     file.close()
 
 # Test 4 - Open nozzle until empty test
@@ -123,7 +123,7 @@ def test4():
     # Power relay 2 until air nozzle runs out and record data for 3 minutes
     start_time = time.time()
 
-    GPIO.output(relay2, GPIO.HIGH)
+    GPIO.output(relay2, GPIO.LOW)
 
     while True:
         current_time = time.time()
@@ -134,7 +134,7 @@ def test4():
             break
 
     # Close the file
-    GPIO.output(relay2, GPIO.LOW)
+    GPIO.output(relay2, GPIO.HIGH)
     file.close()
 
 #--------------------------------
