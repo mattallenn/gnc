@@ -151,7 +151,7 @@ def test4():
         data = sensor.getMotion6()
         file.write(f"{GPIO.input(relay1)},{GPIO.input(relay2)}, {round(time.time()-start_time,2)},{data[0]},{data[1]},{data[2]},{data[3]},{data[4]},{data[5]}\n")
         if current_time - start_time >= test4_runtime: 
-            GPIO.output(relay2, GPIO.LOW)
+            GPIO.output(relay2, GPIO.HIGH)
             break
 
     # Close the file
@@ -191,6 +191,11 @@ if __name__ == "__main__":
         print("Running Open nozzle until empty test")
         test4()
         print("Test complete")
+
+    elif test_selected == "5":
+        GPIO.output(relay2, GPIO.HIGH)
+        GPIO.output(relay1, GPIO.HIGH)
+        
 
     
 
