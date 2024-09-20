@@ -17,9 +17,18 @@ print('Trying to initialize the sensor...')
 sensor = Driver(0x68) # change address if needed
 print('Initialization done')
 
+# BEGIN CONSTANTS --------------------------------
+# Define the runtime of each test (in seconds)
+test1_runtime = 5
+test2_runtime = 5
+test3_runtime = 5
+test4_runtime = 180
+# Define the polling rate of the sensor (in seconds)
+polling_rate = 0.05
 # Initialize the relays
 relay1 = 16 # assuming left
 relay2 = 15 # assuming right
+# END CONSTANTS --------------------------------
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(relay1, GPIO.OUT)
@@ -40,14 +49,17 @@ def test1():
     current_time4 = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     file_name = f"test_data/equality_{current_time4}.csv"
     file = open(file_name, "w")
-    
+
+    # Write a header to the file
+    file.write("Nozzle 1 state, Nozzle 2 state, Time, Accel X, Accel Y, Accel Z, Gyro X, Gyro Y, Gyro Z\n")
+
     # Fire both nozzles for 5 seconds and record data
     start_time = time.time()
     
     GPIO.output(relay1, GPIO.LOW)
     GPIO.output(relay2, GPIO.LOW)
     
-    while time.time() - start_time < 5:
+    while time.time() - start_time < test1_runtime:
         data = sensor.getMotion6()
         file.write(f"{GPIO.input(relay1)},{GPIO.input(relay2)},{round(time.time()-start_time,2)},{data[0]},{data[1]},{data[2]},{data[3]},{data[4]},{data[5]}\n")
         # write the same file.write but have it add columns for data[0] to data[5]
@@ -70,14 +82,17 @@ def test2():
     file_name = f"test_data/left_{current_time4}.csv"
     file = open(file_name, "w")
 
+    # Write a header to the file
+    file.write("Nozzle 1 state, Nozzle 2 state, Time, Accel X, Accel Y, Accel Z, Gyro X, Gyro Y, Gyro Z\n")
+
     # Power relay 1 for 1 second and record data
     start_time = time.time()
     
     GPIO.output(relay1, GPIO.LOW)
     
-    while time.time() - start_time < 1:
+    while time.time() - start_time < test2_runtime:
         data = sensor.getMotion6()
-        file.write(f"{GPIO.input(relay1)},{round(time.time()-start_time,2)},{data[0]},{data[1]},{data[2]},{data[3]},{data[4]},{data[5]}\n")
+        file.write(f"{GPIO.input(relay1)},{GPIO.input(relay2)},{round(time.time()-start_time,2)},{data[0]},{data[1]},{data[2]},{data[3]},{data[4]},{data[5]}\n")
         time.sleep(0.1)
 
     # Close the file
@@ -95,14 +110,17 @@ def test3():
     file_name = f"test_data/right_{current_time4}.csv"
     file = open(file_name, "w")
     
+    # Write a header to the file
+    file.write("Nozzle 1 state, Nozzle 2 state, Time, Accel X, Accel Y, Accel Z, Gyro X, Gyro Y, Gyro Z\n")
+
     # Power relay 2 for 1 second and record data
     start_time = time.time()
     
     GPIO.output(relay2, GPIO.LOW)
     
-    while time.time() - start_time < 1:
+    while time.time() - start_time < test3_runtime:
         data = sensor.getMotion6()
-        file.write(f"{GPIO.input(relay2)},{round(time.time()-start_time,2)},{data[0]},{data[1]},{data[2]},{data[3]},{data[4]},{data[5]}\n")
+        file.write(f"{GPIO.input(relay1)},{GPIO.input(relay2)},{round(time.time()-start_time,2)},{data[0]},{data[1]},{data[2]},{data[3]},{data[4]},{data[5]}\n")
         time.sleep(0.1)
 
     # Close the file
@@ -120,6 +138,9 @@ def test4():
     file_name = f"test_data/open_nozzle_{current_time4}.csv"
     file = open(file_name, "w")
 
+    # Write a header to the file
+    file.write("Nozzle 1 state, Nozzle 2 state, Time, Accel X, Accel Y, Accel Z, Gyro X, Gyro Y, Gyro Z\n")
+
     # Power relay 2 until air nozzle runs out and record data for 3 minutes
     start_time = time.time()
 
@@ -128,8 +149,8 @@ def test4():
     while True:
         current_time = time.time()
         data = sensor.getMotion6()
-        file.write(f"{GPIO.input(relay2)}, {round(time.time()-start_time,2)},{data[0]},{data[1]},{data[2]},{data[3]},{data[4]},{data[5]}\n")
-        if current_time - start_time >= 180:
+        file.write(f"{GPIO.input(relay1)},{GPIO.input(relay2)}, {round(time.time()-start_time,2)},{data[0]},{data[1]},{data[2]},{data[3]},{data[4]},{data[5]}\n")
+        if current_time - start_time >= test4_runtime: 
             GPIO.output(relay2, GPIO.LOW)
             break
 
