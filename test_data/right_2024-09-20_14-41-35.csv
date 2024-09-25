@@ -1,4 +1,4 @@
-Nozzle 1 state, Nozzle 2 state, Time, Accel X, Accel Y, Accel Z, Gyro X, Gyro Y, Gyro Z
+Nozzle 1 state,Nozzle 2 state,Time,Gyro X,Gyro Y,Gyro Z,Accel X,Accel Y,Accel Z
 1,0,0.0,697,19386,-1009,-2251,-16823,-946
 1,0,0.1,646,18983,-1038,-2405,-16914,-666
 1,0,0.21,607,18489,-1073,-2311,-16951,-597
