@@ -51,7 +51,7 @@ def test1():
     file = open(file_name, "w")
 
     # Write a header to the file
-    file.write("Nozzle 1 state, Nozzle 2 state, Time, Accel X, Accel Y, Accel Z, Gyro X, Gyro Y, Gyro Z\n")
+    file.write("Nozzle 1 state,Nozzle 2 state,Time,Gyro X,Gyro Y,Gyro Z,Accel X,Accel Y,Accel Z\n")
 
     # Fire both nozzles for 5 seconds and record data
     start_time = time.time()
@@ -83,7 +83,7 @@ def test2():
     file = open(file_name, "w")
 
     # Write a header to the file
-    file.write("Nozzle 1 state, Nozzle 2 state, Time, Accel X, Accel Y, Accel Z, Gyro X, Gyro Y, Gyro Z\n")
+    file.write("Nozzle 1 state,Nozzle 2 state,Time,Gyro X,Gyro Y,Gyro Z,Accel X,Accel Y,Accel Z\n")
 
     # Power relay 1 for 1 second and record data
     start_time = time.time()
@@ -111,7 +111,7 @@ def test3():
     file = open(file_name, "w")
     
     # Write a header to the file
-    file.write("Nozzle 1 state, Nozzle 2 state, Time, Accel X, Accel Y, Accel Z, Gyro X, Gyro Y, Gyro Z\n")
+    file.write("Nozzle 1 state,Nozzle 2 state,Time,Gyro X,Gyro Y,Gyro Z,Accel X,Accel Y,Accel Z\n")
 
     # Power relay 2 for 1 second and record data
     start_time = time.time()
@@ -139,7 +139,7 @@ def test4():
     file = open(file_name, "w")
 
     # Write a header to the file
-    file.write("Nozzle 1 state, Nozzle 2 state, Time, Accel X, Accel Y, Accel Z, Gyro X, Gyro Y, Gyro Z\n")
+    file.write("Nozzle 1 state,Nozzle 2 state,Time,Gyro X,Gyro Y,Gyro Z,Accel X,Accel Y,Accel Z\n")
 
     # Power relay 2 until air nozzle runs out and record data for 3 minutes
     start_time = time.time()
