@@ -15,11 +15,15 @@ tf = 20  # final time for the simulation
 t = np.linspace(0, tf, 1000)  # simulation time
 dt = tf / 1000  # time step
 
+# User Setting 
+turb = 10 # Set Turbulence 
+setpoint = np.pi # Heading Setpoint IN RADIANS
+
 # Cylinder data
 M = 2.0  # (kg) weight of cylinder
 R = 0.25  # (m) radius of the cylinder
 I = 0.5 * M * R**2  # Moment of inertia for a solid cylinder (I = 1/2 * M * R^2)
-print(f"Moment of Inertia I: {I} kg·m²")
+print(f"Moment of Inertia I: {I} kg*m^2")
 
 # State variable initialization
 theta = [0]  # position (initial angle in radians)
@@ -29,25 +33,25 @@ tau = [0]  # torque (initial torque)
 tau_control = 0  # initial control torque
 
 # natural spin
-tau_natural = np.random(-0.5,0.5)  # no random torque for now
+tau_natural = np.random.uniform(-turb,turb)  # no random torque for now
 
 # Initialize the PID loop
-pid = PID(Kp=1, Ki=0, Kd=1, setpoint=np.pi)  # Target setpoint is pi radians (180 degrees)
+pid = PID(Kp=0.8, Ki=0.3, Kd=0.5, setpoint=setpoint)  # Target setpoint is pi radians (180 degrees)
 
 # Simulation loop
 for i in range(len(t) - 1):  # Use len(t)-1 to avoid going out of range
     # Run PID loop to compute control output
     output = pid.compute(theta[i], dt)
-
+    
     # Control Law: Apply torque based on PID output
-    if abs(output) > 0.1:
+    if abs(output) > 0:
         if output > 0:
             # Apply negative torque to slow down positive spin
             tau_control = 1.5
         else:
             # Apply positive torque to slow down negative spin
             tau_control = -1.5
-
+    tau_natural = np.random.uniform(-1,1)  # no random torque for now
     # Update total torque (control torque + natural torque)
     tau.append(tau_control + tau_natural)
 
@@ -63,6 +67,8 @@ for i in range(len(t) - 1):  # Use len(t)-1 to avoid going out of range
 # Plotting the results (position over time)
 plt.figure("Position vs Time")
 plt.plot(t, theta)
+plt.axhline((setpoint-(5*(np.pi/180))), color='k', linestyle='--') 
+plt.axhline((setpoint+(5*(np.pi/180))), color='k', linestyle='--') 
 plt.xlabel("Time [s]")
 plt.ylabel("Position (Theta) [rad]")
 plt.title("PID Controlled Rotation (Position vs Time)")
