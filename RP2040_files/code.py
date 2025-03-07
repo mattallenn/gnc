@@ -172,6 +172,9 @@ try:
             # Compute PID output
             output = (Kp * error) + (Kd * derivative)
 
+            # Alayna, is this what you want?
+            # output = (Kp * error) + ((Kd * derivative) / derivative)
+
             # Determine thruster activation
             ## TODO: We should never need duration
             threshold = 1  # Deadzone
