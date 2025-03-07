@@ -22,6 +22,12 @@
 # GND: LEDS, IMU, Mosfets
 # +--------------+
 
+
+#+------------------------ NOTES! IMPORTANT! ---------------------+#
+# Thrusters 1 and 3 impart NEGATIVE torque on the launch structure #
+# Thrusters 2 and 4 impart POSITIVE torque on the launch structure #
+#+----------------------------------------------------------------+#
+
 import time
 import board
 import digitalio
@@ -48,8 +54,8 @@ previous_error = 0
 last_time = time.monotonic()
 
 # Thruster Control Variables
-left_thruster_on = False
-right_thruster_on = False
+positive_thruster_on = False
+negative_thruster_on = False
 thruster_off_time = 0  # When to turn off the thruster
 
 # Setup LEDs to display status
@@ -68,11 +74,11 @@ yellow_led.direction = digitalio.Direction.OUTPUT
 
 # Setup PINS for Mosfets
 
-left_thruster = digitalio.DigitalInOut(board.D12)
-left_thruster.direction = digitalio.Direction.OUTPUT
+positive_thruster = digitalio.DigitalInOut(board.D12)
+positive_thruster.direction = digitalio.Direction.OUTPUT
 
-right_thruster = digitalio.DigitalInOut(board.D13)
-right_thruster.direction = digitalio.Direction.OUTPUT
+negative_thruster = digitalio.DigitalInOut(board.D13)
+negative_thruster.direction = digitalio.Direction.OUTPUT
 
 # thruster_3 = digitalio.DigitalInOut(board.D12)
 # thruster_3.direction = digitalio.Direction.OUTPUT
@@ -143,7 +149,7 @@ try:
 
     # Init log file
     with open(filename, "w") as file:
-        file.write("Time,Angular Position,R Solenoid,L Solenoid,Angular Vel X,Angular Vel Y,Angular Vel Z,PID Error,P,I,D\n")
+        file.write("Time,Angular Position,R Solenoid,L Solenoid,Angular Vel X,Angular Vel Y,Angular Vel Z,PID Error,P,D\n")
     
     
     # PID Loop
@@ -182,19 +188,19 @@ try:
             if abs(output) > threshold:
                 if output > 0:  # Fire right thruster
                     print("Right Firing")
-                    if not right_thruster_on:
-                        right_thruster.value = True
-                        right_thruster_on = True
-                        left_thruster.value = False
-                        left_thruster_on = False
+                    if not negative_thruster_on:
+                        negative_thruster.value = True
+                        negative_thruster_on = True
+                        positive_thruster.value = False
+                        positive_thruster_on = False
 
                 elif output < 0:  # Fire left thruster
                     print("Left Firing")
-                    if not left_thruster_on:
-                        left_thruster.value = True
-                        left_thruster_on = True
-                        right_thruster.value = False
-                        right_thruster_on = False
+                    if not positive_thruster_on:
+                        positive_thruster.value = True
+                        positive_thruster_on = True
+                        negative_thruster.value = False
+                        negative_thruster_on = False
 
 
             # Blink LED
@@ -206,7 +212,7 @@ try:
             # Log Data to SD Card
             with open(filename, "a") as file:
                 file.write(
-                    f"{delta_time},{current_heading},{int(right_thruster_on)},{int(left_thruster_on)},{gyro_x},{gyro_y},{gyro_z},{output},{error},{integral},{derivative}\n"
+                    f"{delta_time},{current_heading},{int(negative_thruster_on)},{int(positive_thruster_on)},{gyro_x},{gyro_y},{gyro_z},{output},{error},{derivative}\n"
                 )
             
             print(error)
