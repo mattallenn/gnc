@@ -43,7 +43,7 @@ Kp = 0.56
 Kd = 0.45
 
 # Define filter time constant (Adjustable)
-tau = 10  # Tune this value based on noise level
+tau = 0.1 # Tune this value based on noise level
 
 # Desired heading
 # 0 -> North
