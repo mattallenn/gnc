@@ -42,6 +42,9 @@ import storage
 Kp = 0.56
 Kd = 0.45
 
+# Define filter time constant (Adjustable)
+tau = 10  # Tune this value based on noise level
+
 # Desired heading
 # 0 -> North
 # 90 -> East
@@ -52,6 +55,7 @@ setpoint = 0  # (Degrees) Point north
 # PID variables
 previous_error = 0
 last_time = time.monotonic()
+filtered_derivative = 0
 
 # Thruster Control Variables
 positive_thruster_on = False
@@ -171,12 +175,18 @@ try:
             last_time = current_time
 
             # Compute Derivative
-            ## check if logic
             derivative = (error - previous_error) / delta_time if delta_time > 0 else 0
+
+            # Low-Pass filter coefficient
+            alpha = delta_time / (tau + delta_time)
+
+            # Apply low pass filter
+            filtered_derivative = alpha * derivative + (1 - alpha) * filtered_derivative
+
             previous_error = error
 
             # Compute PID output
-            output = (Kp * error) + (Kd * derivative)
+            output = (Kp * error) + (Kd * filtered_derivative)
 
             # Alayna, is this what you want?
             # output = (Kp * error) + ((Kd * derivative) / derivative)
