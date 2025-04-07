@@ -53,7 +53,7 @@ setpoint = 0  # (Degrees) Point north
 headings = [0, 90, 180, 270]
 heading_index = 0
 last_heading_change = time.monotonic()
-heading_interval = 3  # seconds
+heading_interval = 5  # seconds
 
 # PID variables
 previous_error = 0
@@ -202,7 +202,7 @@ try:
 
             # Determine thruster activation
             ## TODO: We should never need duration
-            threshold = 1  # Deadzone
+            threshold = 5  # Deadzone
             
             if abs(output) > threshold:
                 if output > 0:  # Fire right thruster
