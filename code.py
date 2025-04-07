@@ -49,6 +49,12 @@ Kd = 0.45
 # 270 -> West
 setpoint = 0  # (Degrees) Point north
 
+# Define heading sequence and timing
+headings = [0, 90, 180, 270]
+heading_index = 0
+last_heading_change = time.monotonic()
+heading_interval = 3  # seconds
+
 # PID variables
 previous_error = 0
 last_time = time.monotonic()
@@ -147,6 +153,16 @@ try:
         #print(heading)
         return heading
 
+    # 
+    def cycle_headings():
+        global heading_index, last_heading_change, setpoint
+        current_time = time.monotonic()
+
+        if current_time - last_heading_change >= heading_interval:
+            setpoint = headings[heading_index]
+            heading_index = (heading_index + 1) % len(headings)  # Cycle through headings
+            last_heading_change = current_time
+
     # Init log file
     with open(filename, "w") as file:
         file.write("Time,Angular Position,R Solenoid,L Solenoid,Angular Vel X,Angular Vel Y,Angular Vel Z,PID Error,P,D\n")
@@ -156,6 +172,9 @@ try:
     while True:
                
         try:
+            # Loop through different headings
+            cycle_headings()
+
             current_time = time.monotonic()  # Store monotonic time
             current_heading = get_current_heading()
             
