@@ -50,7 +50,7 @@ Kd = 0.45
 setpoint = 0  # (Degrees) Point north
 
 # Define heading sequence and timing
-headings = [0, 90, 180, 270]
+headings = [90, 180, 270]
 heading_index = 0
 last_heading_change = time.monotonic()
 heading_interval = 5  # seconds
@@ -80,10 +80,10 @@ yellow_led.direction = digitalio.Direction.OUTPUT
 
 # Setup PINS for Mosfets
 
-positive_thruster = digitalio.DigitalInOut(board.D12)
+positive_thruster = digitalio.DigitalInOut(board.D13)
 positive_thruster.direction = digitalio.Direction.OUTPUT
 
-negative_thruster = digitalio.DigitalInOut(board.D13)
+negative_thruster = digitalio.DigitalInOut(board.D12)
 negative_thruster.direction = digitalio.Direction.OUTPUT
 
 # thruster_3 = digitalio.DigitalInOut(board.D12)
